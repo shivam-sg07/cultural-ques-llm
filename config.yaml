@@ -27,8 +27,7 @@ inference:
 This is diff for me strategies:
   few_shot:
     max_new_tokens: 8
-    do_sample: false  # Deterministic (Greedy)
-
+    do_sample: false  # Deterministic 
   self_consistency:
     max_new_tokens: 8
     do_sample: true
