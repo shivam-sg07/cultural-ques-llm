@@ -1,0 +1,36 @@
+cat > .gitignore << 'EOF'
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Data (if large)
+data/*.csv
+data/*.tsv
+
+
+# Model checkpoints
+*.bin
+*.pt
+*.pth
+EOF
+
+
+# Shell scripts (personal run scripts)
+scripts/
+*.sh
+

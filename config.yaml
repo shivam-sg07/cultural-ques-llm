@@ -1,0 +1,27 @@
+# Cultural QA Project Configuration
+# =================================
+
+model:
+  name: "meta-llama/Meta-Llama-3-8B-Instruct"
+  dtype: "float16"  # or "bfloat16" for newer GPUs
+  device: "cuda"
+  max_new_tokens: 100
+
+data:
+  train_path: "data/train_dataset_mcq.csv"
+  test_path: "data/test_dataset_mcq.csv"
+  output_path: "outputs/mcq_prediction.tsv"
+
+prompting:
+  # Options: "zero_shot", "few_shot", "chain_of_thought"
+  strategy: "zero_shot"
+  num_few_shot_examples: 2
+
+self_consistency:
+  enabled: false
+  num_samples: 7
+  temperature: 0.5
+
+inference:
+  batch_size: 1  # Increase if GPU memory allows
+  show_progress: true
