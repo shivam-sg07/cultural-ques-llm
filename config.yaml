@@ -1,19 +1,16 @@
-# Cultural QA Project Configuration
-# =================================
-
-model:
-  name: "meta-llama/Meta-Llama-3-8B-Instruct"
-  dtype: "float16"  # or "bfloat16" for newer GPUs
+global:
+  model_name: "meta-llama/Meta-Llama-3-8B"
   device: "cuda"
-  max_new_tokens: 100
+  dtype: "float16"
+  seed: 42
 
-data:
-  train_path: "data/train_dataset_mcq.csv"
-  test_path: "data/test_dataset_mcq.csv"
-  output_path: "outputs/mcq_prediction.tsv"
+paths:
+  train_data: "train_dataset_saq.csv"
+  test_data: "test_dataset_saq.csv"
+  output_dir: "outputs/"
 
+#For MCQ
 prompting:
-  # Options: "zero_shot", "few_shot", "chain_of_thought"
   strategy: "zero_shot"
   num_few_shot_examples: 2
 
@@ -23,5 +20,39 @@ self_consistency:
   temperature: 0.5
 
 inference:
-  batch_size: 1  # Increase if GPU memory allows
+  batch_size: 1  
   show_progress: true
+
+#For SAQ
+This is diff for me strategies:
+  few_shot:
+    max_new_tokens: 8
+    do_sample: false  # Deterministic (Greedy)
+
+  self_consistency:
+    max_new_tokens: 8
+    do_sample: true
+    temperature: 0.7
+    top_p: 0.9
+    num_samples: 5
+
+  rag:
+    retriever_model: "sentence-transformers/all-MiniLM-L6-v2"
+    top_k: 3
+    max_new_tokens: 10
+    knowledge_base_countries: ["IR", "CN", "US", "GB"]
+
+  fine_tuning:  # LoRA Configuration
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules: ["q_proj", "v_proj"]
+    bias: "none"
+    task_type: "CAUSAL_LM"
+    
+    # Training Arguments
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8
+    learning_rate: 2e-4
+    num_train_epochs: 3
+    fp16: true
