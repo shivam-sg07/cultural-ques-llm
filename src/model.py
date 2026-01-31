@@ -7,7 +7,7 @@ import re
 
 class CulturalQAModel:
     
-    def __init__(self, model_name: str = "meta-llama/Meta-Llama-3-8B-Instruct",
+    def __init__(self, model_name: str = "meta-llama/Meta-Llama-3-8B",
                  device: str = "cuda", dtype: str = "float16", token: Optional[str] = None):
         
         self.model_name = model_name
